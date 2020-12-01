@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Algoritmid</title>
+    <style>
+        body{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            align-content: center;
+        }
+        .button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            width: 120px;
+            border-radius: 5px;
+        }
+        .button2 {
+            background-color: #008CBA;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            width: 120px;
+            border-radius: 5px;
+        }
+        .button3 {
+            background-color: #f44336;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            width: 120px;
+            border-radius: 5px;
+        }
+        #data, #year {
+            padding: 10px;
+            margin: 10px 0px;
+        }
+    </style>
+</head>
+<body>
+<h1>#1 Algoritm | Kivi, paber, käärid</h1>
+<h2>üks-kaks-kolm</h2>
+
+<p><strong>Pea meeles:</strong> “Kivi võidab käärid, käärid lõikavad paberi ja paber katab kivi.” </p>
+<div class='score'>
+
+</div>
+<div class='message'>
+
+</div>
+<button type='button' class='button'>Kivi</button>
+<button type='button' class="button">Paber</button>
+<button type='button' class="button">Käärid</button>
+<script>
+    const message = document.querySelector('.message');
+    const score = document.querySelector('.score');
+    const buttons = document.querySelectorAll('button');
+    const winnerScores = [0,0];
+
+    // Add event listeners to buttons
+    for ( let i = 0 ; i < buttons.length ; i++){
+        buttons[i].addEventListener('click', playGame);
+    }
+
+    function playGame(e){
+
+        // Setup player's selection
+        let playerSelection = e.target.innerText;
+
+        // Setup a random number to select for computer
+        // Selects a number between 0 and 1 (1 not-inclusive)
+        let computerSelection = Math.random();
+
+        // If computerSelection is less than .34, computer selects Kivi
+        if (computerSelection < .34){
+            computerSelection = 'Kivi';
+        } else if (computerSelection <= .67){
+            computerSelection = 'Paber';
+        } else {
+            computerSelection = 'Käärid';
+        }
+
+        // Setup a function to compare winners and return result
+        let result = checkWinner(playerSelection, computerSelection);
+
+        // Output scores
+        if (result === 'Mängija'){
+            result += ' võitis!';
+
+            // Update score
+            winnerScores[0]++;
+        }
+
+        if (result === 'Kompuuter'){
+            result += ' võitis!';
+            winnerScores[1]++;
+        }
+
+        if (result === 'Viik'){
+            result += '. Viik!'
+        }
+
+        // Output score into Score DIV
+        score.innerHTML = 'Mängija: [ ' + winnerScores[0]+ ' ] Kompuuter: [ ' + winnerScores[1] + ' ]';
+
+        // Output player and computer's selections
+        messenger('Mängija: <strong>' + playerSelection + '</strong> Kompuuter: <strong>' + computerSelection + '</strong><br>' + result);
+    }
+
+    function messenger(selectionMessage){
+        message.innerHTML = selectionMessage;
+    }
+
+        // Compare the results of player and computer
+    function checkWinner(player, computer){
+        if (player === computer){
+            return 'Viik';
+        }
+
+        if (player === 'Kivi'){
+            if(computer === 'Paber'){
+                return 'Kompuuter';
+            } else {
+                return 'Mängija';
+            }
+        }
+
+        if (player === 'Paber'){
+            if (computer === 'Käärid'){
+                return 'Kompuuter';
+            } else {
+                return 'Mängija';
+            }
+        }
+
+        if (player === 'Käärid'){
+            if (computer === 'Kivi'){
+                return 'Kompuuter';
+            } else {
+                return 'Mängija';
+            }
+        }
+    }
+</script>
+
+<h1>#2 Algoritm | Tagurpidi - idiprugaT</h1>
+<script src="https://algorithmia.com/v1/clients/js/algorithmia-0.2.1.js" type="text/javascript"></script>
+
+
+<form action="" style="text-align: center;">
+    <label for="data" ><h2>Sisesta sõna või lause</h2></label>
+    <input id="data" type="text">
+    <br>
+    <input type='button' class='button2' onclick="sendData()" value="Saada">
+</form>
+
+<pre id="result"></pre>
+
+<script>
+
+    function sendData() {
+
+        Algorithmia.client("simXkwhlINcEii6B56wjJNAjJLx1")
+            .algo("algoevaldemo/ReverseJavascript/0.1.1?timeout=10")
+            .pipe(document.getElementById('data').value)
+            .then(function(output) {
+                console.log(output);
+
+                document.querySelector('#result').innerHTML = JSON.stringify(output.result);
+                document.getElementById("result").innerHTML="Sõna tagurpidi: " + output.result;
+            });
+    }
+
+</script>
+<h1>#3 Algoritm | Rooma numbrites</h1>
+<br>
+<label for="year"><h2>Sisesta number</h2></label>
+<input type="text" id="year" name="year">
+<button onclick="convertToRoman()" class="button3">Saada</button>
+<p id="result2"></p>
+</body>
+<script>
+    function convertToRoman() {
+        /*
+                Symbol       Value
+                I             1
+                IV            4
+                V             5
+                IX            9
+                X             10
+                XL            40
+                L             50
+                XC            90
+                C             100
+                CD            400
+                D             500
+                CM            900
+                M             1000
+*/
+        // An array of numbers that match the index of the roman numerals
+        const numberA = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1];
+
+        // An array of roman numerals in order from largest to smallest
+        const romanA = ['M','CM','D','CD','C','XC','L','XL','X','IX','V','IV','I'];
+
+        let number = document.getElementById('year').value;
+
+        if(!number ){
+            romanized = "Sisesta number";
+            document.getElementById("result2").innerHTML = romanized;
+        }else{
+
+            // Creates an empty string call romanized
+            let romanized = '';
+
+            // The map() method creates a new array populated with the results of calling a provided function
+            // on every element in the calling array.
+            numberA.map((a, i) => {
+
+                while (a <= number) {
+
+                    romanized += romanA[i];
+
+                    number -= a;
+                }
+                document.getElementById("result2").innerHTML="Rooma numbrites: " + romanized;
+            });
+        }
+    }
+</script>
+
+</body>
+</html>
